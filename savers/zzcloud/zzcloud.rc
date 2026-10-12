@@ -1,0 +1,34 @@
+#include <windows.h>
+#include "resource.h"
+#include "common.rc"
+
+IDI_MAIN ICON "zzcloud.ico"
+
+STRINGTABLE
+BEGIN
+    IDS_DESCRIPTION  "zz Cloud"
+END
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "zzCloud Screen Saver (remake on the multi-monitor Direct3D 11 framework)"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "zzCloud"
+            VALUE "OriginalFilename", "zzCloud.scr"
+            VALUE "ProductName", "Shader Screensaver Builder"
+            VALUE "ProductVersion", "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

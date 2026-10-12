@@ -1,0 +1,12 @@
+{
+  "title": "zz Cloud",
+  "file": "zzCloud",
+  "registry": "zzCloud",
+  "description": "zzCloud Screen Saver (remake on the multi-monitor Direct3D 11 framework)",
+  "shader": "shader.glsl",
+  "params": [],
+  "defaults": { "quality": "auto", "fps": 60, "monitors": "span", "speed": 50 },
+  "speed": { "min": 0.25, "max": 1.75 },
+  "icon_colors": ["#3a6ea8", "#0a1622"],
+  "license": "Shader: 'Protean clouds' by nimitz (https://www.shadertoy.com/view/3l23Rh), CC BY-NC-SA 3.0"
+}

@@ -1,0 +1,34 @@
+#include <windows.h>
+#include "resource.h"
+#include "common.rc"
+
+IDI_MAIN ICON "aurora_sky.ico"
+
+STRINGTABLE
+BEGIN
+    IDS_DESCRIPTION  "Aurora Sky"
+END
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,0
+ PRODUCTVERSION 1,0,0,0
+ FILEOS VOS_NT_WINDOWS32
+ FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "FileDescription", "Aurora Sky Screen Saver (built with the shader builder)"
+            VALUE "FileVersion", "1.0.0.0"
+            VALUE "InternalName", "AuroraSky"
+            VALUE "OriginalFilename", "AuroraSky.scr"
+            VALUE "ProductName", "Shader Screensaver Builder"
+            VALUE "ProductVersion", "1.0.0.0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END

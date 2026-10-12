@@ -1,0 +1,63 @@
+# Cross-compiles the shader screensavers with MinGW-w64 (also works with
+# MSYS2's native MinGW on Windows: `mingw32-make`).
+#
+# Normally driven by the builder:  python3 tools/ssbuild.py build
+#   make            -> build/<File>.scr for every saver in savers.mk (64-bit)
+#   make ARCH=x86   -> 32-bit build
+ARCH    ?= x64
+ifeq ($(ARCH),x64)
+PREFIX  ?= x86_64-w64-mingw32-
+else
+PREFIX  ?= i686-w64-mingw32-
+endif
+CXX      = $(PREFIX)g++
+WINDRES  = $(PREFIX)windres
+CXXFLAGS = -O2 -Wall -Wextra -Wno-unused-parameter -Wno-cast-function-type -municode -DUNICODE -D_UNICODE -D_WIN32_WINNT=0x0A00 -std=c++14
+LDFLAGS  = -municode -mwindows -static -static-libgcc -static-libstdc++ -s
+LIBS     = -ld3d11 -ldxgi -luuid -lgdiplus -lcomctl32 -lcomdlg32 -lgdi32 -lwinmm -luser32 -ladvapi32
+
+include savers.mk   # SAVERS and FILE_<name>, written by tools/ssbuild.py
+OUT      = build
+COMMON_H = $(wildcard common/*.h)
+
+all: $(foreach s,$(SAVERS),$(OUT)/$(FILE_$(s)).scr) $(OUT)/ScreensaverStudio.exe
+
+$(OUT):
+	mkdir -p $(OUT)
+
+$(OUT)/saver.o: common/saver.cpp $(COMMON_H) | $(OUT)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OUT)/simplecfg.o: common/simplecfg.cpp common/simplecfg.h common/saver.h | $(OUT)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OUT)/render.o: common/render.cpp common/render.h common/mesh.h | $(OUT)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+define SAVER_RULES
+$(OUT)/$(1).o: savers/$(1)/$(1).cpp $(COMMON_H) savers/$(1)/resource.h | $(OUT)
+	$$(CXX) $$(CXXFLAGS) -c $$< -o $$@
+
+$(OUT)/$(1)_res.o: savers/$(1)/$(1).rc savers/$(1)/resource.h savers/$(1)/$(1).ico common/common.rc common/saver.manifest | $(OUT)
+	$$(WINDRES) -I common -I savers/$(1) $$< -o $$@
+
+$(OUT)/$(FILE_$(1)).scr: $(OUT)/$(1).o $(OUT)/$(1)_res.o $(OUT)/saver.o $(OUT)/render.o $(OUT)/simplecfg.o
+	$$(CXX) $$(LDFLAGS) $$^ -o $$@ $$(LIBS)
+endef
+$(foreach s,$(SAVERS),$(eval $(call SAVER_RULES,$(s))))
+
+# Screensaver Studio (browse and preview every .scr in its folder)
+$(OUT)/studio.o: studio/studio.cpp common/theme.h common/styleui.h studio/resource.h | $(OUT)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+$(OUT)/studio_res.o: studio/studio.rc studio/resource.h studio/studio.ico studio/studio.manifest | $(OUT)
+	$(WINDRES) -I studio $< -o $@
+
+$(OUT)/ScreensaverStudio.exe: $(OUT)/studio.o $(OUT)/studio_res.o
+	$(CXX) $(LDFLAGS) $^ -o $@ -lcomctl32 -lgdi32 -luser32 -ladvapi32
+
+clean:
+	rm -rf $(OUT)
+
+.PHONY: all clean
+.SECONDARY:
