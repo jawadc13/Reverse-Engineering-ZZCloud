@@ -1,0 +1,29 @@
+{
+  "title": "Julia Drift",
+  "file": "JuliaDrift",
+  "description": "A Julia fractal morphing as its seed wanders",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "detail",
+      "label": "Detail",
+      "default": 50,
+      "low": "Soft",
+      "high": "Fine"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#ffc040",
+    "#200040"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Bokeh City",
+  "file": "BokehCity",
+  "description": "Out-of-focus city lights drifting past",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "blur",
+      "label": "Blur",
+      "default": 50,
+      "low": "Sharp",
+      "high": "Dreamy"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#ffb060",
+    "#101830"
+  ]
+}

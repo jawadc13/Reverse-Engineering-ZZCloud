@@ -1,0 +1,29 @@
+{
+  "title": "Ink Marble",
+  "file": "InkMarble",
+  "description": "Swirling marbled inks folding into each other",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "swirl",
+      "label": "Swirl",
+      "default": 50,
+      "low": "Gentle",
+      "high": "Wild"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#2080c0",
+    "#f0e0c0"
+  ]
+}

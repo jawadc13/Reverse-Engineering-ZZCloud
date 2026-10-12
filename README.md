@@ -7,7 +7,36 @@
 |---|---|
 | ![](docs/screenshots/zzcloud.png) | ![](docs/screenshots/aurora_sky.png) |
 
-Prebuilt 64-bit savers are in `bin/`: `zzCloud.scr` (remake) and `AuroraSky.scr`. Right-click a saver → **Install**, or copy it to `C:\Windows\System32`.
+Prebuilt 64-bit savers are in `bin/`: `zzCloud.scr` (remake), `AuroraSky.scr` and the 20 below. Right-click a saver → **Install**, or copy it to `C:\Windows\System32`.
+
+## Batch: 20 plain `main()` savers
+
+Twenty original shaders (CC0), written in zzCloud's style: `void main()`, `gl_FragColor`, `gl_FragCoord`, `uniform float iTime`. Each has its own slider, plus the standard quality, frame-cap, monitor and speed settings. Sources are in `shaders/<name>/`, and the built `.scr` files are in `bin/`.
+
+![](docs/screenshots/batch.png)
+
+| File | Scene | Own slider |
+|---|---|---|
+| `BokehCity.scr` | Out-of-focus city lights drifting past | Blur |
+| `CausticPool.scr` | Sunlight dancing on the floor of a swimming pool | Water depth |
+| `ElectricStorm.scr` | Crackling electric arcs through a stormy sky | Energy |
+| `EmberStorm.scr` | Glowing embers rising from a fire | Embers |
+| `GoldenDunes.scr` | Layers of desert dunes in warm low sunlight | Wind |
+| `HexPulse.scr` | Hexagon tiles lighting up in rolling waves | Tile size |
+| `InkMarble.scr` | Swirling marbled inks folding into each other | Swirl |
+| `JuliaDrift.scr` | A Julia fractal morphing as its seed wanders | Detail |
+| `KaleidoBloom.scr` | Kaleidoscope flowers opening and turning | Mirrors |
+| `LavaFlow.scr` | Slow rivers of molten rock with cooling crust | Heat |
+| `Metaballs.scr` | Glossy blobs merging and splitting | Blobs |
+| `OceanSunset.scr` | The sun setting over gently rolling waves | Waves |
+| `PlasmaWaves.scr` | Classic demoscene plasma in shifting colours | Pattern size |
+| `RainRipples.scr` | Raindrops rippling across a dark pond | Rain |
+| `RingTunnel.scr` | Racing down a tunnel of glowing rings | Twist |
+| `SilkRibbons.scr` | Glowing silk ribbons waving through the dark | Ribbons |
+| `SpiralGalaxy.scr` | A slowly turning galaxy of dust and stars | Arm tightness |
+| `StainedGlass.scr` | Living Voronoi cells of coloured glass | Cell size |
+| `SynthHorizon.scr` | 80s neon grid racing towards a striped sun | Glow |
+| `WarpStars.scr` | Flying through a field of streaking stars | Star density |
 
 ## Making a screensaver
 
@@ -22,7 +51,7 @@ python3 tools/ssbuild.py build my_saver                  # -> build/MySaver.scr
 python3 tools/ssbuild.py check cool.glsl                 # just check a shader compiles
 ```
 
-The shader may be a Shadertoy `mainImage(out vec4, in vec2)` or a plain `main()` that writes `gl_FragColor` (the zzCloud style). Available inputs: `iResolution`, `iTime`, `iTimeDelta`, `iFrame`, plus your own sliders. Textures (`iChannel0-3`) are not supported. The builder converts GLSL → SPIR-V → HLSL with glslang and SPIRV-Cross. The HLSL is embedded in the saver and compiled by Windows' `d3dcompiler_47.dll` at start-up.
+The shader may be a Shadertoy `mainImage(out vec4, in vec2)` or a plain `main()` that writes `gl_FragColor` (the zzCloud style). Available inputs: `iResolution`, `iTime`, `iTimeDelta`, `iFrame`, plus your own sliders. Textures (`iChannel0-3`) are not supported. The generated HLSL avoids `atan`/`atan2` intrinsics and overloaded helpers, so it compiles both with Windows' compiler and with Wine's vkd3d. The builder converts GLSL → SPIR-V → HLSL with glslang and SPIRV-Cross. The HLSL is embedded in the saver and compiled by Windows' `d3dcompiler_47.dll` at start-up.
 
 `saver.json`:
 

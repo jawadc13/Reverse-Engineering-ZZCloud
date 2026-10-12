@@ -1,0 +1,29 @@
+{
+  "title": "Plasma Waves",
+  "file": "PlasmaWaves",
+  "description": "Classic demoscene plasma in shifting colours",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "scale",
+      "label": "Pattern size",
+      "default": 50,
+      "low": "Large",
+      "high": "Small"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#ff40a0",
+    "#2010a0"
+  ]
+}

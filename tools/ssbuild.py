@@ -141,7 +141,38 @@ def glsl_to_hlsl(src, params, label='shader'):
                            capture_output=True, text=True)
         if r.returncode:
             raise BuildError('spirv-cross failed:\n' + r.stderr)
-        return open(out).read()
+        return portable_hlsl(open(out).read())
+
+
+# SPIRV-Cross output leans on things not every HLSL compiler has: Wine's
+# vkd3d-shader has no atan/atan2 and can't pick between overloads, which breaks
+# SPIRV-Cross's mod() helpers. Rewrite both into forms every compiler takes
+# (and that compile to the same code on Windows' d3dcompiler_47).
+PORTABLE_PRELUDE = '''#define mod(x, y) ((x) - (y) * floor((x) / (y)))
+float _ss_atan01(float z) {   // atan on [0, 1], max error ~1e-5
+    float z2 = z * z;
+    return z * (0.99997726 + z2 * (-0.33262347 + z2 * (0.19354346 + z2 * (-0.11643287 + z2 * (0.05265332 - 0.01172120 * z2)))));
+}
+float _ss_atan(float v) {
+    float a = abs(v);
+    float r = a > 1.0 ? 1.5707963 - _ss_atan01(1.0 / a) : _ss_atan01(a);
+    return v < 0.0 ? -r : r;
+}
+float _ss_atan2(float y, float x) {
+    float ax = abs(x), ay = abs(y);
+    float a = _ss_atan01(min(ax, ay) / max(max(ax, ay), 1e-20));
+    if (ay > ax) a = 1.5707963 - a;
+    if (x < 0.0) a = 3.1415927 - a;
+    return y < 0.0 ? -a : a;
+}
+'''
+
+
+def portable_hlsl(h):
+    h = re.sub(r'^float[234]? mod\(float[234]? x, float[234]? y\)\n\{[^}]*\}\n', '', h, flags=re.M)
+    h = re.sub(r'\batan2\(', '_ss_atan2(', h)
+    h = re.sub(r'\batan\(', '_ss_atan(', h)
+    return PORTABLE_PRELUDE + h
 
 
 def c_string(name, text):

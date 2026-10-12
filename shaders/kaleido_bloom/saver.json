@@ -1,0 +1,29 @@
+{
+  "title": "Kaleido Bloom",
+  "file": "KaleidoBloom",
+  "description": "Kaleidoscope flowers opening and turning",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "mirrors",
+      "label": "Mirrors",
+      "default": 50,
+      "low": "Few",
+      "high": "Many"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#ff60c0",
+    "#102060"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "Electric Storm",
+  "file": "ElectricStorm",
+  "description": "Crackling electric arcs through a stormy sky",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "energy",
+      "label": "Energy",
+      "default": 50,
+      "low": "Calm",
+      "high": "Wild"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#a0c0ff",
+    "#100830"
+  ]
+}

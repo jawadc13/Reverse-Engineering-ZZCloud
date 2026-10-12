@@ -4,7 +4,24 @@
 #include "resource.h"
 
 static const char kShader[] =
-R"SS(cbuffer SaverInputs : register(b0)
+R"SS(#define mod(x, y) ((x) - (y) * floor((x) / (y)))
+float _ss_atan01(float z) {   // atan on [0, 1], max error ~1e-5
+    float z2 = z * z;
+    return z * (0.99997726 + z2 * (-0.33262347 + z2 * (0.19354346 + z2 * (-0.11643287 + z2 * (0.05265332 - 0.01172120 * z2)))));
+}
+float _ss_atan(float v) {
+    float a = abs(v);
+    float r = a > 1.0 ? 1.5707963 - _ss_atan01(1.0 / a) : _ss_atan01(a);
+    return v < 0.0 ? -r : r;
+}
+float _ss_atan2(float y, float x) {
+    float ax = abs(x), ay = abs(y);
+    float a = _ss_atan01(min(ax, ay) / max(max(ax, ay), 1e-20));
+    if (ay > ax) a = 1.5707963 - a;
+    if (x < 0.0) a = 3.1415927 - a;
+    return y < 0.0 ? -a : a;
+}
+cbuffer SaverInputs : register(b0)
 {
     float3 _67_iResolution : packoffset(c0);
     float _67_iTime : packoffset(c0.w);

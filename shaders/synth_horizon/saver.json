@@ -1,0 +1,29 @@
+{
+  "title": "Synth Horizon",
+  "file": "SynthHorizon",
+  "description": "80s neon grid racing towards a striped sun",
+  "shader": "shader.glsl",
+  "params": [
+    {
+      "name": "glow",
+      "label": "Glow",
+      "default": 50,
+      "low": "Soft",
+      "high": "Bright"
+    }
+  ],
+  "defaults": {
+    "quality": "auto",
+    "fps": 60,
+    "monitors": "span",
+    "speed": 50
+  },
+  "speed": {
+    "min": 0.25,
+    "max": 2.0
+  },
+  "icon_colors": [
+    "#ff40c0",
+    "#200040"
+  ]
+}
